@@ -30,12 +30,12 @@ public class SphereDisplayControl : MonoBehaviour
         }
         catch (HttpRequestException e)
         {
-            Debug.LogError($"HttpRequestException trying to fetch sphere data from server: {e.Message}");
+            Debug.LogError($"HttpRequestException trying to fetch sphere data from server: {e.Message} \nStacktrace: {e.StackTrace}");
             return;
         }
         catch(Exception e)
         {
-            Debug.LogError($"Unknown Exception trying to fetch sphere data from server: {e.Message}");
+            Debug.LogError($"Exception trying to fetch sphere data from server: {e.Message} \nStacktrace: {e.StackTrace}");
             return;
         }
 
@@ -47,11 +47,11 @@ public class SphereDisplayControl : MonoBehaviour
         }
         catch(ParseException e)
         {
-            Debug.LogError($"ParseException while parsing sphere data: {e.Message}");
+            Debug.LogError($"ParseException while parsing sphere data: {e.Message} \nStacktrace: {e.StackTrace}");
         }
         catch(Exception e)
         {
-            Debug.LogError($"Exception while parsing sphere data: {e.Message}");
+            Debug.LogError($"Exception while parsing sphere data: {e.Message} \nStacktrace: {e.StackTrace}");
         }
         
         //Last let's pass the data to the front end to show it onscreen
