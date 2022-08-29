@@ -2,6 +2,7 @@ using OriginatorKids.Communication.Http;
 using OriginatorKids.Communication.Http.Exceptions;
 using OriginatorKids.DataModels;
 using OriginatorKids.Parser;
+using OriginatorKids.Parser.Exceptions;
 using System;
 using UnityEngine;
 
@@ -44,9 +45,13 @@ public class SphereDisplayControl : MonoBehaviour
         {
             sphere = (ISphere)new Parser<ISphere>().Parse(sphereData);
         }
+        catch(ParseException e)
+        {
+            Debug.LogError($"ParseException while parsing sphere data: {e.Message}");
+        }
         catch(Exception e)
         {
-            Debug.LogError($"Exception while parsing sphere data from the server: {e.Message}");
+            Debug.LogError($"Exception while parsing sphere data: {e.Message}");
         }
         
         //Last let's pass the data to the front end to show it onscreen
