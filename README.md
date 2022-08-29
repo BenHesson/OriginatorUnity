@@ -2,6 +2,7 @@
 
 Running the project: 
 
+The project was tested using Unity 2020.3.38f1
 The scene to view the runtime generated sphere is in Assets\Frontend\Scenes\SphereDisplay.unity.
 Open the scene and select play.
 The sphere should now show in the window.
