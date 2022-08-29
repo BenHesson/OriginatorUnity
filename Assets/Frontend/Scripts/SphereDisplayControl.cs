@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class SphereDisplayControl : MonoBehaviour
 {
-    private const string SPHERE_URL = "http://localhost:8000/hex_cells.txt";
+    private const string SPHERE_URL = "http://www.originatorkids.com/hiring/hex_cells.txt";
 
     FrontEndDataIngester dataIngestor;
     
