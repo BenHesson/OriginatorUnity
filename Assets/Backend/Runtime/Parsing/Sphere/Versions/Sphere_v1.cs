@@ -15,6 +15,11 @@ namespace OriginatorKids.Parser.PolygonalSphere
             //skip the first line since it is just the version number
             for(int i = 1; i < data.Length; i++)
             {
+                //In case there is an empty line at the end of the file
+                if(string.IsNullOrWhiteSpace(data[i]) || string.IsNullOrEmpty(data[i]))
+                {
+                    continue;
+                }
                 polygons.Add(CreatePolygon(data[i],i));
             }
 
