@@ -1,6 +1,7 @@
-using System.Threading.Tasks;
 using UnityEngine.Networking;
 using OriginatorKids.Communication.Http.Exceptions;
+using System;
+using System.Collections;
 
 namespace OriginatorKids.Communication.Http
 {
@@ -34,21 +35,17 @@ namespace OriginatorKids.Communication.Http
         /// Sends the webrequest to the server
         /// </summary>
         /// <returns>A string representation of the result payload</returns>
-        public async Task<string> Send()
+        public IEnumerator Send(Action<string> result)
         {
             using (UnityWebRequest request = SetupWebRequest())
             {
-                request.SendWebRequest();
-
-                while (!request.isDone)
-                {
-                    await Task.Yield();
-                }
+                yield return request.SendWebRequest();
 
                 switch (request.result)
                 {
                     case UnityWebRequest.Result.Success:
-                        return request.downloadHandler.text;
+                        result?.Invoke(request.downloadHandler.text);
+                        break;
                     default:
                     case UnityWebRequest.Result.ConnectionError:
                     case UnityWebRequest.Result.DataProcessingError:

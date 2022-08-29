@@ -17,16 +17,15 @@ public class SphereDisplayControl : MonoBehaviour
         CreateSphere();
     }
 
-    public async void CreateSphere()
+    public void CreateSphere()
     {
         //First let's check out dependencies
         CheckDependencies();
 
         //Second let's try and get the data we need from the server
-        string sphereData;
         try
         {
-            sphereData = await new HttpCommunicator(SPHERE_URL).Send();
+            StartCoroutine(new HttpCommunicator(SPHERE_URL).Send(OnServerDataReceived));
         }
         catch (HttpRequestException e)
         {
@@ -39,21 +38,26 @@ public class SphereDisplayControl : MonoBehaviour
             return;
         }
 
+        
+    }
+
+    void OnServerDataReceived(string sphereData)
+    {
         //Third, with the data from the server let's try and parse it and create our object of type ISphere
         ISphere sphere = null;
         try
         {
             sphere = (ISphere)new Parser<ISphere>().Parse(sphereData);
         }
-        catch(ParseException e)
+        catch (ParseException e)
         {
             Debug.LogError($"ParseException while parsing sphere data: {e.Message} \nStacktrace: {e.StackTrace}");
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.LogError($"Exception while parsing sphere data: {e.Message} \nStacktrace: {e.StackTrace}");
         }
-        
+
         //Last let's pass the data to the front end to show it onscreen
         foreach (var poly in sphere.Polygons)
         {
