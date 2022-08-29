@@ -85,9 +85,9 @@ public class Tests
         {
             Assert.Pass();
         }
-        catch(Exception)
+        catch(Exception e)
         {
-            Assert.Fail("Expected ParseException when using an unallowed version number");
+            Assert.Fail($"Expected ParseException when using an unallowed version number: {e.Message}");
         }
     }
 
@@ -122,5 +122,27 @@ public class Tests
         Assert.AreEqual(request.url,url);
         Assert.AreEqual(request.method, HttpCommunicator.RequestType.GET.ToString());
         Assert.AreEqual(request.timeout, 99);
+    }
+
+    [Test]
+    public void TestEmptyLineInData()
+    {
+        SphereParser sphereParser = new SphereParser();
+        var cleanData = @"v.1
+0 0 1 0,39,0 1.138,38.888,1.567 1.842,38.888,-0.598 0,38.888,-1.936 -1.842,38.888,-0.598 -1.138,38.888,1.567 1,2,3,4,5
+ ";
+
+        try
+        {
+            ISphere sphere = sphereParser.Create(cleanData);
+        }
+        catch (ParseException e)
+        {
+            Assert.Fail($"ParseException: Expected parsing to pass with an empty line: {e.Message}");
+        }
+        catch (Exception e)
+        {
+            Assert.Fail($"Expected parsing to pass with an empty line: {e.Message}");
+        }
     }
 }
